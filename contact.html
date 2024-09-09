@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 90%; /* Limit container width */
+            width: 400px; /* Fixed width for larger screens */
+            transition: transform 0.3s;
+        }
+        .container:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+        h1 {
+            color: #0f0f0f;
+            margin: 10px 0;
+        }
+        p {
+            font-size: 1em;
+            margin: 5px 0;
+        }
+        .contact-info {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        img {
+            width: 100%; /* Responsive image */
+            border-radius: 10px;
+            margin-bottom: 15px; /* Space below the image */
+            object-fit: cover; /* Maintain aspect ratio */
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #ffFF;
+            font-weight: bold;
+            transition: color 0.3s;
+            background-color: #007BFF;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 1.5em; /* Responsive font size */
+            }
+            p {
+                font-size: 0.9em; /* Responsive font size */
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <img id="profileImage" src="asset/images/IMG_5159.JPG" alt="Profile Image"> <!-- Replace with your image URL -->
+    <h1>Ahmadullah</h1>
+    <p>Last Name: Mayar</p>
+    <div class="contact-info">
+        <p>Phone Number: 0784405616</p>
+        <p>Email: mayarkw255@gmail.com</p>
+        <p>Telegram Number: 0784405616</p>
+        <p>WhatsApp: 0784405616</p>
+        <p>Facebook: Ahmadullah Ahadi</p>
+    </div>
+    <a href="index.html">Previous</a>
+    <button onclick="downloadPDF()">Download</button>
+    
+</div>
+
+<script>
+    async function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Get the image as a data URL
+        const imgElement = document.getElementById('profileImage');
+        const imgData = await getBase64Image(imgElement);
+
+        // Add image to the PDF
+        doc.addImage(imgData, 'JPEG', 10, 10, 190, 100); // Adjust width and height as needed
+
+        // Adding text to the PDF
+        doc.text("Profile Information", 10, 120);
+        doc.text(`Name: Ahmadullah`, 10, 130);
+        doc.text(`Last Name: Mayar`, 10, 140);
+        doc.text(`Phone Number: 0784405616`, 10, 150);
+        doc.text(`Email: mayarkw255@gmail.com`, 10, 160);
+        doc.text(`Telegram Number: 0784405616`, 10, 170);
+        doc.text(`WhatsApp: 0784405616`, 10, 180);
+        doc.text(`Facebook: Ahmadullah Ahadi`, 10, 190);
+
+        // Save the PDF
+        doc.save('profile_information.pdf');
+    }
+
+    function getBase64Image(img) {
+        return new Promise((resolve) => {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, 400, img.height);
+            const dataURL = canvas.toDataURL("image/jpeg");
+            resolve(dataURL);
+        });
+    }
+</script>
+
+</body>
+</html>
